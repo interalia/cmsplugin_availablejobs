@@ -1,0 +1,5 @@
+its small app for getting vacancies on django-cms
+
+facebook integration
+
+** requires django-uni-form

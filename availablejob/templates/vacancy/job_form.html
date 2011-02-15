@@ -1,0 +1,43 @@
+{% extends "vacancy/index.html" %}
+{% load uni_form_tags %}
+{%block extrahead%}
+	{{ block.super }}
+	{% include "uni_form/includes.html" %}
+{% endblock %}
+{% block content %}
+ <div id="contentContainer" style="min-height:350px">
+	 <div id="primeraCol">
+		 <div style="margin-left:100px;">
+			 {% if open %}
+			 <a href="{%url  job-detail open.id %}">Ver descripci&oacute;n</a>
+			 {% else%}
+				<h2>Enviamos tu CV.</h2>
+			{% endif %}
+
+			{% if messages %}
+			<h2>Error </h2>
+			<ul class="messages">
+				    {% for message in messages %}
+					    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+						    {% endfor %}
+						</ul>
+						{% endif %}
+		  </div>
+		  <style>
+			  input {width: 90%;}
+		  </style>
+		  <div id="categorias">
+			  <form action="" method="post" class="uniForm" enctype="multipart/form-data"> {%csrf_token %}
+				{% with form.helper as helper %}
+				    {% uni_form form helper %}
+					{% endwith %}
+				</form>
+
+ </div><!--categorias -->
+</div><!--primeraCol -->
+{%block list-opening %}
+	{{block.super}}
+{% endblock %}
+
+
+{% endblock %}    

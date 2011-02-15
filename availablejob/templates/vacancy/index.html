@@ -1,0 +1,40 @@
+{% block content %}
+  <div id="introContainer">
+    <p class="enfasisAzul">¡Queremos a los mejores!</p>
+      <p> Como una de las mejores empresas de Internet en México ofrecemos a la gente con talento crecimiento y desarrollo profesional. </p>
+  </div>
+
+  <div id="primeraCol">
+		<div id="categorias">
+		   <h2>
+			   <img src="{{MEDIA_URL}}img/talento_aplica.jpg" width="110" height="73" hspace="10" align="left" />
+			   Aplica tu talento
+			</h2>
+			<strong>Profesionistas</strong><br />
+	Estamos continuamente buscando a los mejores en: 
+	Diseño Web, Programación AS3, 
+	C++, PHP, J2EE, comunicación y publicidad.
+		</div><!-- categorias -->
+
+		<div id="categorias">
+				<h2>
+					<img src="{{MEDIA_URL}}img/talento_desarrolla.jpg" width="110" height="73" hspace="10" align="left" />
+				Desarrolla tu talento
+				</h2>
+		<strong>Trainees</strong><br />
+	Para formar parte de Interalia tienes que estar en
+	el último año de la carrera o ser recién graduado de las áreas en qué solicitamos.
+		</div><!--categorias -->
+
+		<div id="categorias"> 
+			 <p class="enfasis">¿Crees ser uno de ellos?</p>
+			 <p><strong> <a href="{% url send-cv%}">Aplica para una oferta actual o envíanos tu curriculum »</a> </strong></p>
+
+		</div>
+	</div><!--primeraCol -->
+	{% block list-opening %}
+		{% load vacancy_tags %}
+		{% list_openings %}	
+	{% endblock %}
+
+	{% endblock %}

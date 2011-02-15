@@ -1,0 +1,49 @@
+
+
+<fb:fbml>
+<link rel="stylesheet" type="text/css" href="http://{{SITE}}{{MEDIA_URL}}css/520.css?date={{today}}">
+<div class="container clearfix">
+    <div class="grid6 first"></div>
+        <div class="grid6">
+        <fb:add-profile-tab type="off-facebook"></fb:add-profile-tab>
+    </div>
+    <div class="grid12 first">
+	     <div id="introContainer">
+            <h1>¡Queremos a los mejores!</h1>
+          <p> Como una de las mejores empresas de Internet en México ofrecemos a la gente con talento crecimiento y desarrollo profesional. </p>
+		</div>
+    </div>
+	<div class="grid4 first"> 
+		<img src="http://{{SITE}}{{MEDIA_URL}}img/talento_aplica.jpg">
+	</div>
+	<div class="grid8">
+		<strong>Profesionistas</strong>
+		<p>
+		Estamos continuamente buscando a los mejores en:  Diseño Web,
+		Programación AS3, C++, PHP, J2EE, comunicación y publicidad. 
+		</p>
+	</div>
+	<div class="grid4 first"> 
+		<img src="http://{{SITE}}{{MEDIA_URL}}img/talento_desarrolla.jpg">
+	</div>
+	<div class="grid8">
+		<strong>Trainees</strong>
+		<p>
+		Para formar parte de Interalia tienes que estar en el último año de la
+		carrera o ser recién graduado de las áreas en qué solicitamos. 
+		</p>
+	</div>
+    <div class="clearfix">
+        
+    </div>
+    <div class="grid6 first ">
+        <h2> Disponibles </h2>
+        <ul>
+            {%for o in enable_openings  %}
+            <li>
+                <a href="http://{{SITE}}{% url job-detail o.id%}">{{o.opening.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>    
+    </div>
+</fb:fbml>

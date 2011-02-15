@@ -1,0 +1,9 @@
+		<div id="segundaCol">
+			<div id="categorias"> 
+				<p><strong>Ofertas actuales</strong></p>
+				{%for i in opens %}
+				<a href="{% url job-detail i.id %}">{{ i.opening.title }}</a><br />
+				{% endfor %}
+			</div><!--categorias -->
+		</div><!--segunda -->
+

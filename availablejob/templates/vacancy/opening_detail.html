@@ -1,0 +1,25 @@
+{% extends "vacancy/index.html" %}
+{% block content %}
+  <div id="primeraCol">
+   <div id="categorias">
+     <h1>{{ object.opening.title }}</h1>
+     <p>
+     </p>
+	<h2>Descripción</h2>     
+	 <p>
+			{{ object.opening.description }}
+     </p>
+
+		<h2>Requisitos</h2> 
+    		<p>
+			{{ object.opening.require.description }}
+		</p> 
+		<p><strong> <a href="{% url show-form object.id %}">Aplica para este puesto »</a> </strong></p><br>
+	<br>
+	</div><!-- categorias -->
+</div><!--primeraCol -->
+{%block list-opening %}
+	{{block.super}}
+{% endblock %}
+
+{% endblock %}
