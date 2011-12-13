@@ -8,6 +8,7 @@ from forms import ApplyForm
 import datetime
 import hashlib
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 
 
@@ -16,6 +17,7 @@ def __create_candidate(form,op,file):
         email = form.cleaned_data["email"]
         phone = form.cleaned_data["phone"]
         cv = form.cleaned_data["cv"]
+  
         candidate, created = Candidate.objects.get_or_create(name = name, email = email)
         if op:
             candidate.opening = op
@@ -73,10 +75,8 @@ def facebook(request):
     return direct_to_template(request, "vacancy/facebook.html", extra_context = d)
 
 
-def handle_uploaded_file(f):
-    destination = open('', 'wb+')
-    for chunk in f.chunks():
-        destination.write(chunk)
-    destination.close()
-
+def uploaded_file(filename):
+    fd = open('%s/%s' % (settings.MEDIA_ROOT, filename), 'wb')
+    fd.write()
+    fd.close()
 
