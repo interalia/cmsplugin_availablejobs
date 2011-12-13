@@ -7,6 +7,10 @@ from models import EnableOpening, Opening, Candidate
 from forms import ApplyForm
 import datetime
 import hashlib
+from django.views.decorators.csrf import csrf_exempt
+
+
+
 
 def index(request):
     eopen = EnableOpening.objects.all()
@@ -21,19 +25,16 @@ def detail(request, id):
     d = {"queryset": qs, 'object_id': int(id), 'template_name': "vacancy/opening_detail.html" }
     return object_detail(request,**d)
 
-def _process_cv(request, opening):
+def _process_cv(request,opening):
     applyform = ApplyForm()
     if request.method == "POST":
-        applyform = ApplyForm(data = request.POST, files = request.FILES)
-        if applyform.is_valid():
-            can = applyform.get_candidate(opening)
-            if can:
-                d = {'candidate': can, 'open': opening}
-                return direct_to_template(request, template="vacancy/job_submit_success.html")
-            else:
-                messages.error(request, "Tu email/Nombre ya han sido ingreados")
-    d = {"open": opening , "form": applyform}
-    return direct_to_template(request, template = "vacancy/job_form.html", extra_context = d)
+        form= ApplyForm(request.POST)
+        if form.is_valid():
+            vacante=form.save(commit=False)  
+            vacante.save()
+            return direct_to_template(request, template = "vacancy/job_submit_success.html")
+    else:
+        return direct_to_template(request, template = "vacancy/job_form.html")
 
 
 def show_form(request, id):
