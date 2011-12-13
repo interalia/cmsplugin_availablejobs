@@ -7,19 +7,11 @@ from uni_form.helpers import FormHelper, Submit
 from models import Candidate
 from django import forms
 
-class ApplyForm(forms.ModelForm):
+class ApplyForm(forms.Form):
     name = form.CharField(label="Nombre", help_text = "Escribe tu nombre completo")
     email = form.EmailField(help_text = u"Escribe tu email nombre@gmail.com")
     phone = form.CharField(help_text = u"Escribe tu teléfono", label=u"Mobile")
-    #cv= form.FileField(help_text = u"Anexa un archivo", label = "Curriculum")
-
-    helper = FormHelper()
-    submit = Submit('submit','Enviar propuesta')
-    helper.add_input(submit)
-
-    class Meta:
-        model=Candidate
-        fields=('name','email','phone')
+    cv= form.FileField(help_text = u"Anexa un archivo", label = "Curriculum")
 
     def get_candidate(self, op):
         name = self.cleaned_data["name"]

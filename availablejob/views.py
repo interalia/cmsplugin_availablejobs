@@ -11,14 +11,34 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 
+def __create_candidate(form, op):
+        name = form.cleaned_data["name"]
+        email = form.cleaned_data["email"]
+        phone = form.cleaned_data["phone"]
+        cv = form.cleaned_data["cv_file"]
+        candidate, created = Candidate.objects.get_or_create(name = name, email = email)
+        if op:
+            candidate.opening = op
+        candidate.phone = phone
+        candidate.cv = cv
+        candidate.save()
+        return candidate
+
 
 def index(request):
     eopen = EnableOpening.objects.all()
-    d = {"opens": eopen}
-    return direct_to_template(request,
-            template="vacancy/index.html",
-            extra_context = d,
-            )
+    form = ApplyForm()
+    d = {"opens": eopen,'form': form}
+    if request.method == "POST":
+        form= ApplyForm(request.POST, request.FILES)
+        if form.is_valid():
+            name = form.cleaned_data.get("title")
+            opening = EnableOpening.objects.filter(opening__title = name)
+            for i in opening:
+                __create_candidate(form, i.opening)
+
+    return direct_to_template(request, template="vacancy/index.html",extra_context=d)
+
 
 def detail(request, id):
     qs = EnableOpening.objects.all()
