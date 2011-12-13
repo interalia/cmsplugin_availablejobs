@@ -11,11 +11,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 
-def __create_candidate(form, op):
+def __create_candidate(form,op,file):
         name = form.cleaned_data["name"]
         email = form.cleaned_data["email"]
         phone = form.cleaned_data["phone"]
-        cv = form.cleaned_data["cv_file"]
+        cv = form.cleaned_data["cv"]
         candidate, created = Candidate.objects.get_or_create(name = name, email = email)
         if op:
             candidate.opening = op
@@ -29,13 +29,13 @@ def index(request):
     eopen = EnableOpening.objects.all()
     form = ApplyForm()
     d = {"opens": eopen,'form': form}
-    if request.method == "POST":
-        form= ApplyForm(request.POST, request.FILES)
-        if form.is_valid():
-            name = form.cleaned_data.get("title")
-            opening = EnableOpening.objects.filter(opening__title = name)
+    if request.method == "POST":      
+        form= ApplyForm(request.POST,request.FILES)
+        if form.is_valid():         
+            name = form.cleaned_data.get("opening")      
+            opening = EnableOpening.objects.filter(opening__title = name)         
             for i in opening:
-                __create_candidate(form, i.opening)
+                __create_candidate(form,i.opening,file=request.FILES)
 
     return direct_to_template(request, template="vacancy/index.html",extra_context=d)
 
@@ -71,3 +71,12 @@ def facebook(request):
     SITE = Site.objects.get_current()
     d = {"enable_openings": ops, "today": today.hexdigest(), 'SITE': SITE}
     return direct_to_template(request, "vacancy/facebook.html", extra_context = d)
+
+
+def handle_uploaded_file(f):
+    destination = open('', 'wb+')
+    for chunk in f.chunks():
+        destination.write(chunk)
+    destination.close()
+
+
