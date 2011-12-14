@@ -37,8 +37,9 @@ def index(request):
             name = form.cleaned_data.get("opening")      
             opening = EnableOpening.objects.filter(opening__title = name)         
             for i in opening:
-                __create_candidate(form,i.opening,file=request.FILES)
-
+                __create_candidate(form,i,file=request.FILES)
+        else:
+	    d.update({"form":form})
     return direct_to_template(request, template="vacancy/index.html",extra_context=d)
 
 
