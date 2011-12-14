@@ -17,7 +17,6 @@ def __create_candidate(form,op,file):
         email = form.cleaned_data["email"]
         phone = form.cleaned_data["phone"]
         cv = form.cleaned_data["cv"]
-  
         candidate, created = Candidate.objects.get_or_create(name = name, email = email)
         if op:
             candidate.opening = op
