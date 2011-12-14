@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from uni_form.helpers import FormHelper, Submit, Reset
 from uni_form.helpers import Layout, Fieldset, Row, HTML
 from uni_form.helpers import FormHelper, Submit
-from models import Candidate
+from models import Candidate, EnableOpening
 from django import forms
 
 class ApplyForm(forms.Form):
@@ -16,6 +16,14 @@ class ApplyForm(forms.Form):
     class Meta:
         model=Candidate
         fields=('name','email','phone','opening','cv')
+
+    def clean_opening(self):
+        name = self.cleaned_data.get(&quot;opening&quot;)
+        a = EnableOpening.objects.filter(opening__title = name)         
+        if not a:
+            raise form.ValidationError(&quot;Selecciona una vacante&quot;)
+        return name
+
 
 
     def get_candidate(self, op):
