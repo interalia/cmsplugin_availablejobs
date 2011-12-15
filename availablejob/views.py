@@ -38,9 +38,11 @@ def index(request):
             post=True   
             d.update({"form":form,"post":post})   
             name = form.cleaned_data.get("opening")      
-            opening = EnableOpening.objects.filter(opening__title = name)         
+            opening = EnableOpening.objects.filter(opening__title = name)
+            '''         
             for i in opening:
                 __create_candidate(form,i,request.FILES['cv'])
+            '''
         else:
 	    d.update({"form":form,"post":post})
     return direct_to_template(request, template="vacancy/index.html",extra_context=d)
