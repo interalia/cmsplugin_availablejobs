@@ -42,7 +42,7 @@ def index(request):
                 post=True
 
         else:
-	    d.update({"form":form})
+	    d.update({"form":form,"post":post})
     return direct_to_template(request, template="vacancy/index.html",extra_context=d)
 
 
