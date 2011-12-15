@@ -35,7 +35,8 @@ def index(request):
     if request.method == "POST":      
         form= ApplyForm(request.POST,request.FILES)
         if form.is_valid():   
-            post=True      
+            post=True   
+            d.update({"form":form,"post":post})   
             name = form.cleaned_data.get("opening")      
             opening = EnableOpening.objects.filter(opening__title = name)         
             for i in opening:
