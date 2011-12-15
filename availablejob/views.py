@@ -34,13 +34,12 @@ def index(request):
     d = {"opens": eopen,'form': form,'post':post}
     if request.method == "POST":      
         form= ApplyForm(request.POST,request.FILES)
-        if form.is_valid():         
+        if form.is_valid():   
+            post=True      
             name = form.cleaned_data.get("opening")      
             opening = EnableOpening.objects.filter(opening__title = name)         
             for i in opening:
                 __create_candidate(form,i,request.FILES['cv'])
-                post=True
-
         else:
 	    d.update({"form":form,"post":post})
     return direct_to_template(request, template="vacancy/index.html",extra_context=d)
