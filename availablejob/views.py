@@ -17,6 +17,7 @@ def __create_candidate(form,op,file):
         email = form.cleaned_data["email"]
         phone = form.cleaned_data["phone"]
         cv = form.cleaned_data["cv"]
+        uploaded_file(file)
         candidate, created = Candidate.objects.get_or_create(name = name, email = email)
         if op:
             candidate.opening = op
@@ -29,14 +30,17 @@ def __create_candidate(form,op,file):
 def index(request):
     eopen = EnableOpening.objects.all()
     form = ApplyForm()
-    d = {"opens": eopen,'form': form}
+    post=False
+    d = {"opens": eopen,'form': form,'post':post}
     if request.method == "POST":      
         form= ApplyForm(request.POST,request.FILES)
         if form.is_valid():         
             name = form.cleaned_data.get("opening")      
             opening = EnableOpening.objects.filter(opening__title = name)         
             for i in opening:
-                __create_candidate(form,i,file=request.FILES)
+                __create_candidate(form,i,request.FILES['cv'])
+                post=True
+
         else:
 	    d.update({"form":form})
     return direct_to_template(request, template="vacancy/index.html",extra_context=d)
@@ -76,7 +80,9 @@ def facebook(request):
 
 
 def uploaded_file(filename):
-    fd = open('%s/%s' % (settings.MEDIA_ROOT, filename), 'wb')
-    fd.write()
+    fd=open(settings.MEDIA_CV+str(filename),'wb+')
+    for chunk in filename.chunks():
+        fd.write(chunk)
     fd.close()
 
+       

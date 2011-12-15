@@ -18,10 +18,10 @@ class ApplyForm(forms.Form):
         fields=('name','email','phone','opening','cv')
 
     def clean_opening(self):
-        name = self.cleaned_data.get(&quot;opening&quot;)
+        name = self.cleaned_data.get("opening")
         a = EnableOpening.objects.filter(opening__title = name)         
         if not a:
-            raise form.ValidationError(&quot;Selecciona una vacante&quot;)
+            raise form.ValidationError("Selecciona una vacante")
         return name
 
 
