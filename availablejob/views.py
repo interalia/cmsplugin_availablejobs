@@ -29,9 +29,12 @@ def __create_candidate(form,op,file):
 
 def index(request):
     eopen = EnableOpening.objects.all()
+    for i in eopen:
+        print i
     form = ApplyForm()
     post=False
-    d = {"opens": eopen,'form': form,'post':post}
+    ios=mobile(request)
+    d = {"opens": eopen,'form': form,'post':post,'mobile':ios}
     if request.method == "POST":      
         form= ApplyForm(request.POST,request.FILES)
         if form.is_valid():   
@@ -80,6 +83,19 @@ def facebook(request):
     d = {"enable_openings": ops, "today": today.hexdigest(), 'SITE': SITE}
     return direct_to_template(request, "vacancy/facebook.html", extra_context = d)
 
+
+def mobile(request):
+    device = {}
+    mobile=False
+    ua=request.META.get('HTTP_USER_AGENT','').lower()
+    if ua.find("iphone") > 0:
+        mobile= True
+    if ua.find("ipad") > 0:
+        mobile= True
+    if mobile:
+        return True
+    else:
+        return False
 
 def uploaded_file(filename):
     fd=open(settings.MEDIA_CV+str(filename),'wb+')
